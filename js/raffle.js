@@ -47,6 +47,8 @@ const el = {
   drawnNotEnteredBlock: document.getElementById("drawn-not-entered-block"),
   lostBlock: document.getElementById("lost-block"),
 
+  connectError: document.getElementById("connect-error"),
+
   winnerPanel: document.getElementById("winner-panel"),
   winnerCanvas: document.getElementById("winner-canvas"),
   shareXBtn: document.getElementById("share-x-btn"),
@@ -377,6 +379,7 @@ el.copyImageBtn.addEventListener("click", () => {
 // ---------------- Wallet connect ----------------
 
 el.connectBtn.addEventListener("click", async () => {
+  el.connectError.hidden = true;
   el.connectBtn.disabled = true;
   try {
     const session = await connectAndSignIn();
@@ -385,6 +388,9 @@ el.connectBtn.addEventListener("click", async () => {
     el.walletLabel.hidden = false;
     el.walletLabel.textContent = shortWallet(session.wallet);
     await loadStatus();
+  } catch (err) {
+    el.connectError.textContent = err.message || "Something went wrong connecting your wallet.";
+    el.connectError.hidden = false;
   } finally {
     el.connectBtn.disabled = false;
   }

@@ -21,27 +21,39 @@ function getInjectedProvider() {
   return window.ethereum || window.okxwallet || null;
 }
 
+// Throws a plain-text Error with a message safe to show directly to
+// the holder -- the caller (raffle.js) catches and displays it instead
+// of failing silently.
 async function connectAndSignIn() {
   const provider = getInjectedProvider();
   if (!provider) {
-    alert("You need a wallet extension like OKX Wallet or MetaMask installed to continue.");
-    return null;
+    throw new Error("No wallet extension found -- install OKX Wallet or MetaMask and reload the page.");
   }
 
-  const accounts = await provider.request({ method: "eth_requestAccounts" });
+  let accounts;
+  try {
+    accounts = await provider.request({ method: "eth_requestAccounts" });
+  } catch (err) {
+    throw new Error(err && err.code === 4001 ? "Connection request was rejected." : "Could not connect to your wallet.");
+  }
   const wallet = accounts[0];
 
   const nonceRes = await fetch(`/api/auth/nonce?wallet=${wallet}`);
   if (!nonceRes.ok) {
     console.error("Failed to get sign-in message", await nonceRes.text());
-    return null;
+    throw new Error("Could not start sign-in -- try again in a moment.");
   }
   const { message } = await nonceRes.json();
 
-  const signature = await provider.request({
-    method: "personal_sign",
-    params: [message, wallet],
-  });
+  let signature;
+  try {
+    signature = await provider.request({
+      method: "personal_sign",
+      params: [message, wallet],
+    });
+  } catch (err) {
+    throw new Error(err && err.code === 4001 ? "Signature request was rejected." : "Could not get a signature from your wallet.");
+  }
 
   const verifyRes = await fetch("/api/auth/verify", {
     method: "POST",
@@ -51,7 +63,7 @@ async function connectAndSignIn() {
 
   if (!verifyRes.ok) {
     console.error("Sign-in verification failed", await verifyRes.text());
-    return null;
+    throw new Error("Sign-in verification failed -- try again.");
   }
 
   const { token } = await verifyRes.json();

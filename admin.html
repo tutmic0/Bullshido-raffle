@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bullshido Raffle — Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/raffle.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">力</span>
+      <span class="brand-name">BULLSHIDO<em>Raffle Admin</em></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="panel">
+    <p class="eyebrow">Admin key</p>
+    <p class="section-sub" style="margin-bottom:14px;">Typed in below, kept only in this tab's memory -- never saved, never sent anywhere except this project's own API.</p>
+    <div class="input-row">
+      <input id="admin-key-input" type="password" placeholder="ADMIN_SECRET" autocomplete="off">
+    </div>
+  </section>
+
+  <section class="panel">
+    <p class="eyebrow">Current / recent campaigns</p>
+    <h1 class="section-title" style="margin-bottom:14px;">Campaigns</h1>
+    <button id="refresh-btn" class="btn btn-ghost" style="margin-bottom:16px;">Refresh</button>
+    <div id="campaign-list" class="mono" style="font-size:0.85rem;white-space:pre-wrap;"></div>
+  </section>
+
+  <section class="panel">
+    <p class="eyebrow">Start the next partner raffle</p>
+    <label>Partner name</label>
+    <div class="input-row"><input id="partner-name-input" type="text" placeholder="e.g. Some Cool Collection"></div>
+
+    <label>Partner X tag (optional, just for your reference)</label>
+    <div class="input-row"><input id="x-tag-input" type="text" placeholder="@partner"></div>
+
+    <label>GTD spots</label>
+    <div class="input-row"><input id="gtd-spots-input" type="number" min="1" value="5"></div>
+
+    <label>Duration (hours)</label>
+    <div class="input-row"><input id="duration-input" type="number" min="0.1" step="0.1" value="24"></div>
+
+    <button id="create-btn" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px;">Create campaign</button>
+    <p id="create-status" class="status-message" hidden></p>
+  </section>
+
+  <section class="panel">
+    <p class="eyebrow">Cancel the active campaign</p>
+    <p class="section-sub" style="margin-bottom:14px;">Only if you need to stop one early -- entries already collected stay in the database but no draw will run for it.</p>
+    <button id="cancel-btn" class="btn btn-ghost">Cancel active campaign</button>
+    <p id="cancel-status" class="status-message" hidden></p>
+  </section>
+
+  <section class="panel">
+    <p class="eyebrow">Winners CSV</p>
+    <p class="section-sub" style="margin-bottom:14px;">Downloads winners for the most recently drawn campaign.</p>
+    <button id="csv-btn" class="btn btn-primary">Download winners.csv</button>
+  </section>
+
+</main>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

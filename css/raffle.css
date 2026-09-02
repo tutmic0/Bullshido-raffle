@@ -161,7 +161,7 @@ main{padding:clamp(40px,7vw,72px) 0;}
   flex-direction:column;
   gap:6px;
 }
-.stat-label{font-size:0.72rem;color:var(--paper-faint);text-transform:uppercase;letter-spacing:0.08em;}
+.stat-label{font-size:0.72rem;color:var(--paper-faint);text-transform:uppercase;letter-spacing:0.08em;min-height:2.4em;}
 .stat-value{font-size:1.1rem;color:var(--gold-bright);}
 
 /* ---------------- ENTRY FORM ---------------- */

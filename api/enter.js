@@ -48,7 +48,8 @@ module.exports = async function handler(req, res) {
     .maybeSingle();
 
   if (campaignError) {
-    res.status(500).json({ error: "database_error" });
+    console.error("campaign fetch error", campaignError);
+    res.status(500).json({ error: "database_error", detail: campaignError.message });
     return;
   }
   if (!campaign) {
@@ -90,7 +91,8 @@ module.exports = async function handler(req, res) {
       res.status(409).json({ error: "campaign_not_active" });
       return;
     }
-    res.status(500).json({ error: "database_error" });
+    console.error("perform_enter error", error);
+    res.status(500).json({ error: "database_error", detail: error.message });
     return;
   }
 

@@ -18,6 +18,11 @@
 }
 
 *{box-sizing:border-box;}
+/* Guarantee the HTML "hidden" attribute always wins, even on elements
+   whose own class sets "display" (e.g. .btn sets display:inline-flex,
+   which otherwise overrides the browser's default [hidden]{display:none}
+   since same-specificity author CSS beats the user-agent stylesheet). */
+[hidden]{display:none !important;}
 html{background:var(--ink);}
 body{
   margin:0;

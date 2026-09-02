@@ -49,7 +49,7 @@ module.exports = async function handler(req, res) {
 
   if (campaignError) {
     console.error("campaign fetch error", campaignError);
-    res.status(500).json({ error: "database_error", detail: campaignError.message });
+    res.status(500).json({ error: "database_error" });
     return;
   }
   if (!campaign) {
@@ -92,7 +92,7 @@ module.exports = async function handler(req, res) {
       return;
     }
     console.error("perform_enter error", error);
-    res.status(500).json({ error: "database_error", detail: error.message });
+    res.status(500).json({ error: "database_error" });
     return;
   }
 

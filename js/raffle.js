@@ -20,6 +20,7 @@ let pollTimer = null;
 const el = {
   connectBtn: document.getElementById("connect-btn"),
   walletLabel: document.getElementById("wallet-label"),
+  disconnectBtn: document.getElementById("disconnect-btn"),
 
   noCampaignPanel: document.getElementById("no-campaign-panel"),
   campaignPanel: document.getElementById("campaign-panel"),
@@ -390,6 +391,7 @@ async function runConnect(provider) {
     el.connectBtn.hidden = true;
     el.walletLabel.hidden = false;
     el.walletLabel.textContent = shortWallet(session.wallet);
+    el.disconnectBtn.hidden = false;
     await loadStatus();
   } catch (err) {
     el.connectError.textContent = err.message || "Something went wrong connecting your wallet.";
@@ -446,8 +448,29 @@ el.connectBtn.addEventListener("click", () => {
     el.connectBtn.hidden = true;
     el.walletLabel.hidden = false;
     el.walletLabel.textContent = shortWallet(wallet);
+    el.disconnectBtn.hidden = false;
     await loadStatus();
   } else {
     el.connectPrompt.hidden = false;
   }
 })();
+
+el.disconnectBtn.addEventListener("click", () => {
+  signOut();
+  clearInterval(countdownTimer);
+  clearInterval(pollTimer);
+
+  el.connectBtn.hidden = false;
+  el.walletLabel.hidden = true;
+  el.disconnectBtn.hidden = true;
+  el.connectError.hidden = true;
+  el.walletPicker.hidden = true;
+
+  el.winnerPanel.hidden = true;
+  hideAllStateBlocks();
+  el.connectPrompt.hidden = false;
+
+  // Re-render the campaign panel's public stats (countdown etc.) without
+  // any wallet-specific state now that we're signed out.
+  renderCampaign();
+});

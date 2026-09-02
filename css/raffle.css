@@ -193,6 +193,18 @@ main{padding:clamp(40px,7vw,72px) 0;}
 .status-message{font-size:0.85rem;margin-top:12px;color:var(--paper-dim);}
 .status-message.error{color:var(--danger);}
 
+/* ---------------- HERO / OPENSEA CTA ---------------- */
+.hero-cta{display:flex;gap:28px;align-items:center;}
+.hero-cta-media{flex-shrink:0;width:130px;}
+.hero-cta-img{width:100%;height:auto;display:block;border-radius:3px;}
+.hero-cta-body{flex:1;min-width:0;}
+.hero-cta-body .section-title{margin-bottom:8px;}
+.hero-cta-body .section-sub{margin-bottom:18px;}
+@media (max-width:620px){
+  .hero-cta{flex-direction:column;align-items:flex-start;text-align:left;}
+  .hero-cta-media{width:104px;}
+}
+
 /* ---------------- WALLET PICKER ---------------- */
 .wallet-picker{
   margin-top:12px;
